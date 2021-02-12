@@ -1,0 +1,20 @@
+clc;clear;close all; delete(instrfind); 
+s = serial("COM6"); % Modify COM according to your COM port
+nofElem=65536; %Number of receive samples
+decdata=uint8(nofElem); % integer data
+s.BaudRate = 50000; % MODIFY FOR YOUR BAUDRATE
+s.InputBufferSize = 2^14; %number of bytes
+s.OutputBufferSize =2^14; % number of bytes
+get(s) % Properties of your serial port
+k=1;
+fopen(s);
+
+while(1)
+decdata(k) = fread(s,1);
+if k==nofElem
+break;
+end
+k=k+1; 
+end
+get(s)
+fclose(s)
